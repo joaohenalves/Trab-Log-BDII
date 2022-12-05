@@ -3,10 +3,11 @@ import json
 
 
 class Transaction:
-    nome = ''
-    comandos = []
-    comitada = False
-    abortada = False
+    def __init__(self, nome):
+        self.nome = nome
+        self.comandos = []
+        self.comitada = False
+        self.abortada = False
 
 
 connection = psycopg2.connect("dbname='postgres' user='postgres' password='joaohenalves' host='localhost' port='5432'")
@@ -38,9 +39,7 @@ for linha in texto:
     match linha[0]:
         case "start":
             print("entrou start")
-            t = Transaction()
-            t.nome = linha[1]
-            transactions.append(t)
+            transactions.append(Transaction(linha[1]))
         case "commit":
             print("entrou commit")
             for j in range(len(transactions)):
@@ -66,7 +65,6 @@ for linha in texto:
             print("entrou default")
             if (len(linha)) == 5:
                 for m in range(len(transactions)):
-                    print(1)
                     if transactions[m].nome == linha[0]:
                         del linha[0]
                         transactions[m].comandos.append(linha)
