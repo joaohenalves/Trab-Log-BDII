@@ -1,14 +1,11 @@
 import psycopg2
 import json
 
-
 class Transaction:
     def __init__(self, nome):
         self.nome = nome
         self.comandos = []
         self.comitada = False
-        self.abortada = False
-
 
 connection = psycopg2.connect("dbname='postgres' user='postgres' password='joaohenalves' host='localhost' port='5432'")
 cursor = connection.cursor()
@@ -19,10 +16,8 @@ with open('metadado.json') as f:
 
 for i in range(len(data['INITIAL']['id'])):
     values = [data['INITIAL'][item][i] for item in data['INITIAL']]
-    query = "INSERT INTO redo VALUES (%s, %s, %s)"
-    cursor.execute(query, tuple(values))
+    cursor.execute("INSERT INTO redo VALUES (%s, %s, %s)", tuple(values))
 connection.commit()
-
 
 transactions = []
 tAux = []
@@ -38,64 +33,30 @@ for linha in texto:
 
     match linha[0]:
         case "start":
-            print("entrou start")
             transactions.append(Transaction(linha[1]))
         case "commit":
-            print("entrou commit")
             for j in range(len(transactions)):
                 if transactions[j].nome == linha[1]:      
                     transactions[j].comitada = True
         case "CKPT":
-            print("entrou ckpt")
             del linha[0]
             for k in transactions:
                 if k.nome in linha:
                     tAux.append(k)
             transactions = tAux
         case "abort":
-            print("entrou abort")
             for l in range(len(transactions)):
                 if transactions[l].nome == linha[1]:
                     del transactions[l]
                     break
         case "crash":
-            print("entrou crash")
             pass
         case _:
-            print("entrou default")
             if (len(linha)) == 5:
                 for m in range(len(transactions)):
                     if transactions[m].nome == linha[0]:
                         del linha[0]
                         transactions[m].comandos.append(linha)
-                        print(linha)
                         break
-
-
-for l in transactions:
-    print(l.nome, l.comitada)
-    
-
-print(len(transactions))
-for z in range(len(transactions)):
-    print(transactions[z].comandos)
-    
-
-
-
-# commandQuery = []
-# for command in log:
-#     match command[0]:
-#         case "start":
-#             transactions.append(command[1])
-#         case "commit":
-#             pass
-#         case "CKPT":
-#             pass
-#         case "crash":
-#             pass
-#         case _:
-#             if (len(command)) == 5:
-#                 pass
 
 connection.close()
