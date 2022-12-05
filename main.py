@@ -9,22 +9,15 @@ cursor.execute("CREATE TABLE IF NOT EXISTS redo (id INTEGER, A INTEGER, B INTEGE
 with open('metadado.json') as f:
     data = json.load(f)
 
-print(data['INITIAL'])
-
 for i in range(len(data['INITIAL']['id'])):
-    values = []
-    for item in data['INITIAL']:
-        values.append(data['INITIAL'][item][i])
-
-    insert_query = "INSERT INTO redo VALUES (%s, %s, %s) "
-    cursor.execute(insert_query, tuple(values))
-    print(values)
-
+    values = [data['INITIAL'][item][i] for item in data['INITIAL']]
+    query = "INSERT INTO redo VALUES (%s, %s, %s) "
+    cursor.execute(query, tuple(values))
 connection.commit()
 
 
 log = []
-arq = open('entradaLog.txt','r')
+arq = open('entradaLog','r')
 texto = arq.readlines()
 chars = ['<','>','(',')','\n']
 for linha in texto:
