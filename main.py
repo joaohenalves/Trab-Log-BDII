@@ -20,8 +20,7 @@ for i in range(len(data['INITIAL']['id'])):
 
 connection.commit()
 
-transactions = []
-tAux = []
+transactions, tAux = [], []
 with open('entradaLog.txt', 'r') as file:
     for linha in file:
         for char in ['<', '>', '(', ')', '\n']:
@@ -44,8 +43,6 @@ with open('entradaLog.txt', 'r') as file:
                     if transactions[l].nome == linha[1]:
                         del transactions[l]
                         break
-            case "crash":
-                pass
             case _:
                 if (len(linha)) == 5:
                     for transaction in transactions:
@@ -55,6 +52,20 @@ with open('entradaLog.txt', 'r') as file:
                             break
 
 for t in transactions:
-    print(t.nome, t.comandos)
+    if t.comitada:
+        for i in range(len(t.comandos)):
+            cursor.execute(f"SELECT {t.comandos[i][1]} FROM redo WHERE id = {t.comandos[i][0]}")
+            v = cursor.fetchone()
+
+            if v[0] != (valor := t.comandos[i][3]):
+                cursor.execute(f"UPDATE redo SET {t.comandos[i][1]} = {valor} WHERE id = {t.comandos[i][0]}")
+
+                connection.commit()
+        print(f"{t.nome} realizou REDO")
+    else:
+        print(f"{t.nome} não realizou REDO")
+
+cursor.execute("SELECT * from redo")
+print(cursor.fetchall())
 
 connection.close()
