@@ -1,34 +1,34 @@
-# 🗄️ Recuperação de Transações — Banco de Dados II
+# 🗄️ Transaction Recovery — Database II
 
-Projeto acadêmico desenvolvido para a disciplina de **Banco de Dados II**, com o objetivo de simular a recuperação de um banco de dados após uma falha, utilizando registros de log.
+Academic project developed for the **Database II** course, focusing on simulating database recovery after a failure using transaction logs.
 
-## 📌 Sobre o projeto
+## 📌 About the Project
 
-O programa implementa um mecanismo simplificado de recuperação baseado na operação **REDO**, responsável por reaplicar alterações de transações confirmadas (*committed*).
+The program implements a simplified **REDO-based recovery mechanism**, responsible for reapplying changes made by committed transactions.
 
-A aplicação interpreta um arquivo de log contendo operações de transações, identifica checkpoints e executa as alterações necessárias em um banco de dados PostgreSQL.
+It processes a transaction log, identifies checkpoints, and performs the necessary operations on a PostgreSQL database.
 
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Technologies Used
 
-- **Python** — Implementação da lógica de recuperação.
-- **PostgreSQL** — Banco de dados relacional.
-- **Psycopg2** — Comunicação entre Python e PostgreSQL.
-- **JSON** — Armazenamento dos dados iniciais.
+- **Python** — Recovery logic implementation.
+- **PostgreSQL** — Relational database system.
+- **Psycopg2** — Communication between Python and PostgreSQL.
+- **JSON** — Initial database state storage.
 
-## 📁 Estrutura do repositório
+## 📁 Repository Structure
 
-- **`main.py`** — Implementação do mecanismo de recuperação REDO.
-- **`entradaLog.txt`** — Registro das operações e transações.
-- **`metadado.json`** — Estado inicial do banco de dados.
+- **`main.py`** — REDO recovery mechanism implementation.
+- **`entradaLog.txt`** — Transaction log containing recorded operations.
+- **`metadado.json`** — Initial database state.
 
-## 📚 Conceitos abordados
+## 📚 Topics Covered
 
-- Transações em bancos de dados
-- Logs de transações
-- Recuperação de falhas (REDO)
+- Database Transactions
+- Transaction Logging
+- Crash Recovery (REDO)
 - Checkpoints
-- Operações COMMIT e ABORT
+- COMMIT and ABORT Operations
 
-## 🎓 Contexto acadêmico
+## 🎓 Academic Context
 
-Trabalho desenvolvido durante a graduação em **Ciência da Computação**, na disciplina de **Banco de Dados II**.
+Developed as part of the **Computer Science** undergraduate program, for the **Database II** course.
