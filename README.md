@@ -2,6 +2,13 @@
 
 Academic project developed for the **Database II** course, focusing on simulating database recovery after a failure using transaction logs.
 
+## Contributors
+
+This project was collaboratively developed by:
+
+- **[João Henrique Alves](https://github.com/joaohenalves)**
+- **[Bernardo Facchi](https://github.com/Cataratas)**
+
 ## 📌 About the Project
 
 The program implements a simplified **REDO-based recovery mechanism**, responsible for reapplying changes made by committed transactions.
